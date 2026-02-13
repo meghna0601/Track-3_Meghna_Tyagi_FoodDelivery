@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 @Builder(toBuilder = true)
 public class User {
-
     @Id
     private String id;
     private String name;
@@ -20,5 +19,4 @@ public class User {
     private Boolean active;
     private String phoneNumber;
     private Role role;
-
 }
