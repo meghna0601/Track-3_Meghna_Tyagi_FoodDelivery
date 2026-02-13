@@ -1,0 +1,57 @@
+server:
+  port: 8181
+
+spring:
+  application:
+    name: user
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/food_delivery
+    username: root
+    password: meghna_java123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      pool-name: AppHikariPool
+
+      # sizing
+      maximum-pool-size: 20
+      minimum-idle: 5
+
+      # timeouts (milliseconds)
+      connection-timeout: 30000      # wait for a connection from pool
+      idle-timeout: 600000           # retire idle connections
+      max-lifetime: 1800000          # recycle connections before DB kills them
+      validation-timeout: 5000
+
+      # leak detection (use temporarily; adds overhead)
+      leak-detection-threshold: 20000
+
+      # optional: set DB/session properties
+      connection-init-sql: "SET time_zone = '+00:00'"
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        # usually omit dialect with Hibernate 6/7; it auto-detects
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+

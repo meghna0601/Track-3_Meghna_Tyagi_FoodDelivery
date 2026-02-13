@@ -1,0 +1,11 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.fooddelivery</groupId>
+    <artifactId>fooddelivery</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>fooddelivery/user</module>
+    </modules>
+</project>
