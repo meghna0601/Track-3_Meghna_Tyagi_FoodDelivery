@@ -3,12 +3,13 @@ package com.user.model;
 import com.user.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Data
 @Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     private String id;
