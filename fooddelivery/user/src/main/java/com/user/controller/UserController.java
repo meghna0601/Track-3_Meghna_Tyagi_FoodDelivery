@@ -45,9 +45,11 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.OK);
 
     }
-//
-//    @GetMapping("{userId}")
-//    public ResponseEntity<UserResponse> getUser(@RequestParam String userId) {
-//
-//    }
+
+    @GetMapping
+    public ResponseEntity<GetUserResponse> getUser(@RequestParam String userId) {
+        log.info("Enter in UserController update role");
+        GetUserResponse userResponse = userService.getUserDetails(userId);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
+    }
 }

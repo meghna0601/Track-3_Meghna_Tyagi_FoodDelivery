@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse switchRole(String userId,UserRoleRequest userRequest) {
         log.info("Enter in UserService switch user role");
-        Optional<User> userOptional = userRepository.findById(userId);
+        Optional<User> userOptional = userRepository.findByIdAndActive(userId,true);
         if(userOptional.isPresent()) {
             User user = userOptional.get();
             user.setRole(Role.valueOf(userRequest.role().name()));
@@ -111,5 +111,21 @@ public class UserServiceImpl implements UserService {
                     .build();
         }
         throw new ResourceNotFoundException("User Id not found");
+    }
+
+    @Override
+    public GetUserResponse getUserDetails(String userId) {
+        Optional<User> userOptional = userRepository.findByIdAndActive(userId,true);
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
+            return  GetUserResponse.builder().userDetails(GetUserDetails.builder()
+                            .email(user.getEmail())
+                                            .address(user.getAddress())
+                                                    .id(user.getId())
+                                                            .name(user.getName())
+                                                                    .phoneNumber(user.getPhoneNumber()).build())
+                             .message("User Found").build();
+        }
+        throw new ResourceNotFoundException("User Not Found !!");
     }
 }

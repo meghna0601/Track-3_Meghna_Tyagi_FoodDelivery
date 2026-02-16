@@ -10,4 +10,6 @@ public interface UserService {
     UserResponse deleteUser(UserDeleteRequest userDeleteRequest);
 
     UserResponse switchRole(String userId,UserRoleRequest userRequest);
+
+    GetUserResponse getUserDetails(String userId);
 }
