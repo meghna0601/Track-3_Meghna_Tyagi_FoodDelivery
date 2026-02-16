@@ -32,7 +32,7 @@
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
 	</properties>
 	<dependencies>
-		<!--        in order to register this microserevice as a eureka client on eureka server-->
+		<!--in order to register this microserevice as a eureka client on eureka server-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -118,6 +118,17 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+<dependencyManagement>
+<dependencies>
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-dependencies</artifactId>
+		<version>${spring-cloud.version}</version>
+		<type>pom</type>
+		<scope>import</scope>
+	</dependency>
+</dependencies>
+</dependencyManagement>
 
 	<build>
 		<plugins>
