@@ -7,5 +7,7 @@
 
     <modules>
         <module>fooddelivery/user</module>
+        <module>fooddelivery/api-gateway</module>
+        <module>fooddelivery/service-registry</module>
     </modules>
 </project>
