@@ -1,8 +1,6 @@
 package com.user.service.impl;
 
-import com.user.dto.UserRequest;
-import com.user.dto.UserResponse;
-import com.user.dto.UserUpdateResponse;
+import com.user.dto.*;
 import com.user.enums.Role;
 import com.user.exception.ResourceAlreadyExistException;
 import com.user.exception.ResourceNotFoundException;
@@ -44,6 +42,13 @@ public class UserServiceImpl implements UserService {
             .build();
 
         }
+
+        if(!userOptional.get().getActive()) {
+          User user = userOptional.get();
+           user = user.toBuilder().active(true).build();
+          userRepository.save(user);
+            return UserResponse.builder().userId(userOptional.get().getId()).message("Successfully created").build();
+        }
         throw new ResourceAlreadyExistException("Duplicate User cannot be added");
     }
 
@@ -60,16 +65,51 @@ public class UserServiceImpl implements UserService {
 
                     userRepository.save(user);
 
+
             return UserUpdateResponse.builder()
                     .id(user.getId())
                     .name(user.getName())
                     .email(user.getEmail())
-                    .role(user.getRole())
+                    .role(Role.valueOf(user.getRole().name()))
                     .phoneNumber(userRequest.phoneNumber())
                     .address(userRequest.address())
                     .build();
 
         }
         throw new ResourceNotFoundException("User Not Found with the given details");
+    }
+
+    @Override
+    public UserResponse deleteUser(UserDeleteRequest userDeleteRequest) {
+        log.info("Enter in UserService deleting user");
+        Optional<User> userOptional = userRepository.findByIdAndActive(userDeleteRequest.userId(),true);
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setActive(false);
+            userRepository.save(user);
+            log.info("User delete successfully");
+           return UserResponse.builder()
+                    .message("Deleted Successfully")
+                    .userId(userDeleteRequest.userId())
+                    .build();
+        }
+        throw new ResourceNotFoundException("User id not found");
+    }
+
+    @Override
+    public UserResponse switchRole(String userId,UserRoleRequest userRequest) {
+        log.info("Enter in UserService switch user role");
+        Optional<User> userOptional = userRepository.findById(userId);
+        if(userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setRole(Role.valueOf(userRequest.role().name()));
+            userRepository.save(user);
+            log.info("Role Switch Successfully");
+            return UserResponse.builder()
+                    .message("Role Updated Successfully")
+                    .userId(userId)
+                    .build();
+        }
+        throw new ResourceNotFoundException("User Id not found");
     }
 }
