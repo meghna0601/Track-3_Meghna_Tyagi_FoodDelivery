@@ -38,4 +38,10 @@ public class RestrauntController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/suspend")
+    public ResponseEntity<SuspendRestrauntResponse> suspendRestraunt(@RequestParam("restrauntId")String resId,@RequestBody SuspendRestrauntRequest request) {
+        RestrauntResponse response = restrauntService.updateRequestStatus(resId,request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

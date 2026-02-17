@@ -7,7 +7,9 @@ import com.restraunt.enums.RestrauntStatus;
 import com.restraunt.exception.RequestSentFailedException;
 import com.restraunt.exception.RestrauntNotFoundException;
 import com.restraunt.model.Restraunt;
+import com.restraunt.model.SuspendRestraunt;
 import com.restraunt.repository.RestrauntRepository;
+import com.restraunt.repository.SuspendRestrauntRepository;
 import com.restraunt.service.RestrauntService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ import java.util.UUID;
 public class RestrauntServiceImpl  implements RestrauntService {
 
     private RestrauntRepository restrauntRepository;
+    private SuspendRestrauntRepository suspendRestrauntRepository;
 
     @Override
     public RestrauntResponse sendRequest(RestrauntRequest request) {
