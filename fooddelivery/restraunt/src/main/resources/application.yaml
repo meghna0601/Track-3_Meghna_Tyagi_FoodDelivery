@@ -1,12 +1,12 @@
 server:
-  port: 8181
+  port: 8383
 
 spring:
   application:
-    name: user
+    name: restraunt
 
   datasource:
-    url: jdbc:mysql://localhost:3306/fooddelivery_user
+    url: jdbc:mysql://localhost:3306/fooddelivery_restraunt
     username: root
     password: meghna_java123
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -42,6 +42,16 @@ spring:
         jdbc:
           time_zone: UTC
 
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka"
+    fetch-registry: true
+    register-with-eureka: true
+
+
 # actuator config
 management:
   endpoint:
@@ -53,16 +63,4 @@ management:
     web:
       exposure:
         include: "*"
-
-# eureka server config
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: "http://localhost:8761/eureka"
-    fetch-registry: true
-    register-with-eureka: true
-
-
 

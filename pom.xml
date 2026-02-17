@@ -9,5 +9,7 @@
         <module>fooddelivery/user</module>
         <module>fooddelivery/api-gateway</module>
         <module>fooddelivery/service-registry</module>
+        <module>fooddelivery/order</module>
+        <module>fooddelivery/restraunt</module>
     </modules>
 </project>
