@@ -29,4 +29,24 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(ItemNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleResourceNotSavedException(ItemNotFoundException resourceNotSavedException) {
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message(resourceNotSavedException.getMessage())
+                .successStatus(false)
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .build();
+        return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse> handleResourceNotSavedException(Exception resourceNotSavedException) {
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message(resourceNotSavedException.getMessage())
+                .successStatus(false)
+                .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                .build();
+        return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
+    }
+
 }

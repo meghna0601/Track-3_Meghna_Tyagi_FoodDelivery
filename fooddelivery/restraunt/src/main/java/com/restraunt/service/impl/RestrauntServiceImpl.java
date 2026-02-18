@@ -1,8 +1,6 @@
 package com.restraunt.service.impl;
 
-import com.restraunt.dto.RestrauntRequest;
-import com.restraunt.dto.RestrauntResponse;
-import com.restraunt.dto.UpdateRestrauntRequest;
+import com.restraunt.dto.*;
 import com.restraunt.enums.RestrauntStatus;
 import com.restraunt.exception.RequestSentFailedException;
 import com.restraunt.exception.RestrauntNotFoundException;
@@ -84,5 +82,21 @@ public class RestrauntServiceImpl  implements RestrauntService {
         }
         throw new RestrauntNotFoundException("Id is not correct");
 
+    }
+
+    @Override
+    public SuspendRestrauntResponse suspendRestrauntRequest(SuspendRestrauntRequest request) {
+        Boolean isExist = restrauntRepository.existsById(request.restrauntId());
+        if(isExist) {
+            suspendRestrauntRepository.save(SuspendRestraunt.builder()
+                    .restrauntId(request.restrauntId())
+                    .reason(request.suspendReason())
+                    .build());
+            log.info("Request Suspend Successfully");
+            return SuspendRestrauntResponse.builder()
+                    .message("Request Suspend Successfully")
+                    .reason(request.suspendReason()).build();
+        }
+        throw new RestrauntNotFoundException("Id does not found");
     }
 }

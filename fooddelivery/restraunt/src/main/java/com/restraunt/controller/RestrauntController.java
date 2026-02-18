@@ -1,8 +1,6 @@
 package com.restraunt.controller;
 
-import com.restraunt.dto.RestrauntRequest;
-import com.restraunt.dto.RestrauntResponse;
-import com.restraunt.dto.UpdateRestrauntRequest;
+import com.restraunt.dto.*;
 import com.restraunt.service.RestrauntService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +37,8 @@ public class RestrauntController {
     }
 
     @PostMapping("/suspend")
-    public ResponseEntity<SuspendRestrauntResponse> suspendRestraunt(@RequestParam("restrauntId")String resId,@RequestBody SuspendRestrauntRequest request) {
-        RestrauntResponse response = restrauntService.updateRequestStatus(resId,request);
+    public ResponseEntity<SuspendRestrauntResponse> suspendRestraunt(@RequestBody SuspendRestrauntRequest request) {
+        SuspendRestrauntResponse response = restrauntService.suspendRestrauntRequest(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
