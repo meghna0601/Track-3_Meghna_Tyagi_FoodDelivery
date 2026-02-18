@@ -71,6 +71,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse> handleResourceNotSavedException(Exception resourceNotSavedException) {
+        ApiResponse apiResponse = ApiResponse.builder()
+                .message(resourceNotSavedException.getMessage())
+                .successStatus(false)
+                .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                .build();
+        return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
+    }
+
+
     ///  for validation handler
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status,
