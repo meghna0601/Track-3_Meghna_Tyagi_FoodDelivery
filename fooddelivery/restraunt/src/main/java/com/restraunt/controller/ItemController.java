@@ -2,6 +2,7 @@ package com.restraunt.controller;
 
 import com.restraunt.dto.ItemRequest;
 import com.restraunt.dto.ItemResponse;
+import com.restraunt.dto.ItemUpdateQuantity;
 import com.restraunt.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,20 @@ public class ItemController {
     public ResponseEntity<ItemResponse> itemById(@RequestParam("id")String itemId) {
         log.info("Finding Item");
         ItemResponse response = itemService.getItem(itemId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/updateQuantity")
+    public ResponseEntity<ItemResponse> updateQuantity(@RequestBody ItemUpdateQuantity request) {
+        log.info("update quantity");
+        ItemResponse response = itemService.updateQuantity(request);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ItemResponse> updateQuantity(@RequestParam String itemId) {
+        log.info("deleting item");
+        ItemResponse response = itemService.deleteQuantity(itemId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -1,9 +1,9 @@
 package com.restraunt.service.impl;
 
 import com.restraunt.dto.GetItemDetails;
-import com.restraunt.dto.Item;
 import com.restraunt.dto.ItemRequest;
 import com.restraunt.dto.ItemResponse;
+import com.restraunt.dto.ItemUpdateQuantity;
 import com.restraunt.exception.ItemNotFoundException;
 import com.restraunt.exception.RestrauntNotFoundException;
 import com.restraunt.model.Inventory;
@@ -89,6 +89,35 @@ public class ItemsServiceImpl implements ItemService {
 
         }
 
+        throw new ItemNotFoundException("Item does not exists");
+    }
+
+    @Override
+    public ItemResponse updateQuantity(ItemUpdateQuantity request) {
+        Optional<Items> item = itemsRepository.findById(request.itemId());
+        if(item.isPresent()) {
+            Items itemData = item.get();
+            if(itemData.getIsOutOfStock()) {
+                itemData.setIsOutOfStock(false);
+            }
+            Integer newQuantity = itemData.getQuantity() + request.quantity();
+            itemData.setQuantity(newQuantity);
+            itemsRepository.save(itemData);
+            log.info("Item Quantity is updated successfully");
+
+        }
+        throw new ItemNotFoundException("Item does not exists");
+    }
+
+    @Override
+    public ItemResponse deleteQuantity(String itemId) {
+        Optional<Items> item = itemsRepository.findById(itemId);
+        if(item.isPresent()) {
+            Items itemData = item.get();
+            itemData.setIsOutOfStock(true);
+            itemsRepository.save(itemData);
+        }
+        log.info("Item Quantity is updated successfully");
         throw new ItemNotFoundException("Item does not exists");
     }
 }
