@@ -23,8 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RestrauntServiceImpl  implements RestrauntService {
 
-    private RestrauntRepository restrauntRepository;
-    private SuspendRestrauntRepository suspendRestrauntRepository;
+    private final  RestrauntRepository restrauntRepository;
+    private  final SuspendRestrauntRepository suspendRestrauntRepository;
 
     @Override
     public RestrauntResponse sendRequest(RestrauntRequest request) {

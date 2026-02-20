@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestrauntController {
 
-    private RestrauntService restrauntService;
+    private final RestrauntService restrauntService;
 
     @PostMapping("/request")
     public ResponseEntity<RestrauntResponse> sendRequestForApproval(@RequestBody RestrauntRequest request) {

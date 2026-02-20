@@ -29,30 +29,6 @@ eureka:
           predicates:
             - "Path=/user/**"
 
-###payment - service
-#spring.cloud.gateway.routes[1].id=payment-service
-#spring.cloud.gateway.routes[1].uri=lb://payment-service
-#spring.cloud.gateway.routes[1].predicates[0]=Path=
-#
-###order - service
-#spring.cloud.gateway.routes[2].id=order-service
-#spring.cloud.gateway.routes[2].uri=lb://order-service
-#spring.cloud.gateway.routes[2].predicates[0]=Path=/order/**
-#
-###delivery - service
-#spring.cloud.gateway.routes[3].id=delivery-service
-#spring.cloud.gateway.routes[3].uri=lb://delivery-service
-#spring.cloud.gateway.routes[3].predicates[0]=Path=
-#
-###Pizza - service
-#spring.cloud.gateway.routes[4].id=pizza-service
-#spring.cloud.gateway.routes[4].uri=lb://pizza-service
-#spring.cloud.gateway.routes[4].predicates[0]=Path=/pizza/**,/cart/**,/bill/**
-#
-##swagger configuration
-#spring.mvc.pathmatch.matching-strategy=ANT_PATH_MATCHER
-#spring.main.allow-bean-definition-overriding=true
-
 
 
 

@@ -117,7 +117,7 @@ public class ItemsServiceImpl implements ItemService {
             itemData.setIsOutOfStock(true);
             itemsRepository.save(itemData);
         }
-        log.info("Item Quantity is updated successfully");
+        log.info("Item  is deleted successfully");
         throw new ItemNotFoundException("Item does not exists");
     }
 }
