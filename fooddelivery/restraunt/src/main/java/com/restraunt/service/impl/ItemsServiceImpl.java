@@ -24,9 +24,9 @@ import java.util.*;
 @Service
 public class ItemsServiceImpl implements ItemService {
 
-    private RestrauntRepository restrauntRepository;
-    private InventoryRepository inventoryRepository;
-    private ItemsRepository itemsRepository;
+    private final RestrauntRepository restrauntRepository;
+    private final InventoryRepository inventoryRepository;
+    private final ItemsRepository itemsRepository;
 
     @Override
     public ItemResponse addItems(ItemRequest request) {
@@ -119,5 +119,15 @@ public class ItemsServiceImpl implements ItemService {
         }
         log.info("Item  is deleted successfully");
         throw new ItemNotFoundException("Item does not exists");
+    }
+
+    @Override
+    public List<GetItemDetails> getAllItems(String restrauntId) {
+        Boolean isExist = restrauntRepository.existsById(restrauntId);
+        if(isExist) {
+            List<GetItemDetails> itemsList = restrauntRepository.findAllByRestrauntId(restrauntId);
+            return itemsList;
+        }
+        throw new RestrauntNotFoundException("Id does not exist");
     }
 }

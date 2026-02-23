@@ -1,5 +1,6 @@
 package com.restraunt.repository;
 
+import com.restraunt.dto.GetItemDetails;
 import com.restraunt.enums.RestrauntStatus;
 import com.restraunt.model.Restraunt;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,6 @@ public interface RestrauntRepository extends JpaRepository<Restraunt,String> {
     Optional<Restraunt> findByRestrauntNameAndLatitudeAndLongitude(String s, Double latitude, Double longitude);
 
     List<Restraunt> findAllByStatus(RestrauntStatus restrauntStatus);
+
+    List<GetItemDetails> findAllByRestrauntId(String restrauntId);
 }

@@ -1,5 +1,6 @@
 package com.restraunt.controller;
 
+import com.restraunt.dto.GetItemDetails;
 import com.restraunt.dto.ItemRequest;
 import com.restraunt.dto.ItemResponse;
 import com.restraunt.dto.ItemUpdateQuantity;
@@ -10,13 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Slf4j
 @RequestMapping("/item")
 @RequiredArgsConstructor
 public class ItemController {
 
-    private ItemService itemService;
+    private final ItemService itemService;
 
     @PostMapping
     public ResponseEntity<ItemResponse> additems(@RequestBody ItemRequest request) {
@@ -43,6 +46,13 @@ public class ItemController {
     public ResponseEntity<ItemResponse> updateQuantity(@RequestParam String itemId) {
         log.info("deleting item");
         ItemResponse response = itemService.deleteQuantity(itemId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/allItemsByRestrauntId")
+    public  ResponseEntity<List<GetItemDetails>> getAllItemsByRestrauntId(@RequestParam String restrauntId) {
+        log.info("Retrieving all items by restraunt id");
+        List<GetItemDetails> response = itemService.getAllItems(restrauntId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

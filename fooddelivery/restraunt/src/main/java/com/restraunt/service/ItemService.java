@@ -5,6 +5,8 @@ import com.restraunt.dto.ItemRequest;
 import com.restraunt.dto.ItemResponse;
 import com.restraunt.dto.ItemUpdateQuantity;
 
+import java.util.List;
+
 public interface ItemService {
     ItemResponse addItems(ItemRequest request);
 
@@ -13,4 +15,6 @@ public interface ItemService {
     ItemResponse updateQuantity(ItemUpdateQuantity request);
 
     ItemResponse deleteQuantity(String itemId);
+
+    List<GetItemDetails> getAllItems(String restrauntId);
 }
