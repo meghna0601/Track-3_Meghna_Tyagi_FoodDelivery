@@ -159,7 +159,7 @@ public class OrderAppService {
         }
         var r = Return.request(orderId, req.reasonCode(), req.refundMethod());
         returns.save(r);
-        o.setStatus(ReturnStatus.REQUESTED);
+        o.setStatus(OrderStatus.REQUESTED);
         audit.save(AuditEvent.of(o.getOrderId(), "ReturnRequested", customerId, r.getReturnId().toString()));
         return toReturnResponse(r);
     }
@@ -247,7 +247,7 @@ public class OrderAppService {
         var o = orders.findById(orderId).orElseThrow(() -> new NotFoundException("Order not found"));
         var refund = Refund.of(orderId, req.paymentId(), toMoney(req.amount()), req.reasonCode());
         refunds.save(refund);
-        o.setStatus(ReturnStatus.REFUNDED);
+        o.setStatus(OrderStatus.REFUNDED);
         audit.save(AuditEvent.of(o.getOrderId(), "RefundIssued", actor, refund.getRefundId().toString()));
         return toRefundResponse(refund);
     }
@@ -281,9 +281,9 @@ public class OrderAppService {
             o.setGrandTotal(new Money("USD", 0));
             return;
         }
-        String currency = o.getLines().getFirst().getUnitPrice().getCurrency();
+        String currency = o.getLines().getFirst().getAmount().getCurrency();
         long total = 0;
-        for (var l : o.getLines()) total += (long) l.getQuantity() * l.getUnitPrice().getAmountMinor();
+        for (var l : o.getLines()) total += (long) l.getQuantity() * l.getAmount().getAmountMinor();
         o.setGrandTotal(new Money(currency, total));
     }
 
@@ -308,7 +308,7 @@ public class OrderAppService {
 
     private Dtos.OrderResponse toOrderResponse(Order o) {
         var lines = o.getLines().stream()
-                .map(l -> new Dtos.OrderLineResponse(l.getOrderLineId(), l.getSkuId(), l.getName(), l.getQuantity(), toMoneyDto(l.getUnitPrice())))
+                .map(l -> new Dtos.OrderLineResponse(l.getOrderId(), l.getSkuId(), l.getName(), l.getQuantity(), toMoneyDto(l.getUnitPrice())))
                 .toList();
 
         return new Dtos.OrderResponse(
