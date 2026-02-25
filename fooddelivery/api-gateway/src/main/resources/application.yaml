@@ -24,10 +24,19 @@ eureka:
   cloud:
     gateway:
       routes:
-        - id: "user service"
-          uri: "lb://user service"
+        - id: "user"
+          uri: "lb://user"
           predicates:
             - "Path=/user/**"
+
+        - id: "order"
+          uri: "lb://order"
+          predicates:
+            - "Path=/order/**"
+        - id: "restraunt"
+          uri: "lb://restraunt"
+          predicates:
+            - "Path=/restraunt/**,/items/**"
 
 
 

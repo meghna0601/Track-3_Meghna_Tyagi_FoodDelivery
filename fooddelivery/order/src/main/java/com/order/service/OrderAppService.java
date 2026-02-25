@@ -127,7 +127,7 @@ public class OrderAppService {
                 .orElseThrow(() -> new NotFoundException("Order not found"));
 
         // Minimal demo rule: any payment initiation moves DRAFT -> PENDING_PAYMENT
-        if (o.getStatus() == OrderStatus.CREATED) o.setStatus(PaymentState.CAPTURED);
+        if (o.getStatus() == OrderStatus.CREATED) o.setStatus(OrderStatus.CREATED);
 
         Payment p = Payment.initiate(orderId, toMoney(req.amount()), req.paymentMethodRef());
         // Demo: immediately authorize
@@ -300,8 +300,9 @@ public class OrderAppService {
         );
     }
 
-    private Money toMoney(Money dto) { return new Money(dto.currency(), dto.amountMinor()); }
-    private Dtos.MoneyDto toMoneyDto(Money m) { return new Money(m.getCurrency(), m.getAmountMinor()); }
+    private Money toMoney(Dtos.MoneyDto dto) { return new Money(dto.currency(), dto.amountMinor()); }
+    private Dtos.MoneyDto toMoneyDto(Money m) { return new
+            Dtos.MoneyDto(m.getCurrency(), m.getAmountMinor()); }
     private Address toAddress(Dtos.AddressDto dto) { return new Address(dto.line1(), dto.line2(), dto.city(), dto.state(), dto.postalCode(), dto.country()); }
     private Dtos.AddressDto toAddressDto(Address a) { return new Dtos.AddressDto(a.getLine1(), a.getLine2(), a.getCity(), a.getState(), a.getPostalCode(), a.getCountry()); }
 

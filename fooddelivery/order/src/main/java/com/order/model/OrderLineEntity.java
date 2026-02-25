@@ -3,12 +3,14 @@ package com.order.model;
 import com.order.domain.Money;
 import com.order.enums.PaymentState;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
 @Table(name = "order_lines")
+@Data
 public class OrderLineEntity {
 
     @Id
@@ -27,16 +29,14 @@ public class OrderLineEntity {
     private String paymentMethodRef;
     private Instant createdAt;
 
-    protected PaymentEntity() {}
-
-    public static PaymentEntity initiate(UUID orderId, Money amount, String methodRef) {
-        PaymentEntity p = new PaymentEntity();
-        p.paymentId = UUID.randomUUID();
-        p.orderId = orderId;
-        p.amount = amount;
-        p.paymentMethodRef = methodRef;
-        p.state = PaymentState.INITIATED;
-        p.createdAt = Instant.now();
+    public static Payment initiate(UUID orderId, Money amount, String methodRef) {
+        Payment p = new Payment();
+        p.setPaymentId(UUID.randomUUID());
+        p.setOrderId(orderId);
+        p.setAmount(amount);
+        p.setPaymentMethodRef(methodRef);
+        p.setState(PaymentState.INITIATED);
+        p.setCreatedAt(Instant.now());
         return p;
     }
 
