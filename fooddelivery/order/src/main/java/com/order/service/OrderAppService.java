@@ -281,20 +281,20 @@ public class OrderAppService {
             o.setGrandTotal(new Money("USD", 0));
             return;
         }
-        String currency = o.getLines().getFirst().getAmount().getCurrency();
+        String currency = o.getLines().getFirst().getUnitPrice().getCurrency();
         long total = 0;
-        for (var l : o.getLines()) total += (long) l.getQuantity() * l.getAmount().getAmountMinor();
+        for (var l : o.getLines()) total += (long) l.getQuantity() * l.getUnitPrice().getAmountMinor();
         o.setGrandTotal(new Money(currency, total));
     }
 
     private Map<OrderStatus, Set<OrderStatus>> allowedTransitions() {
         return Map.of(
                 OrderStatus.DRAFT, Set.of(OrderStatus.PENDING_PAYMENT, OrderStatus.CANCELLED),
-                PaymentState.INITIATED, Set.of(OrderStatus.CREATED, OrderStatus.CANCELLED),
+                OrderStatus.INITIATED, Set.of(OrderStatus.CREATED, OrderStatus.CANCELLED),
                 OrderStatus.CREATED, Set.of(OrderStatus.PLACED, OrderStatus.CANCELLED),
                 OrderStatus.PLACED, Set.of(OrderStatus.SHIPPED, OrderStatus.CANCELLED),
                 OrderStatus.SHIPPED, Set.of(OrderStatus.DELIVERED),
-                OrderStatus.DELIVERED, Set.of(OrderStatus.COMPLETED, ReturnStatus.RETURN_REQUESTED),
+                OrderStatus.DELIVERED, Set.of(OrderStatus.COMPLETED, OrderStatus.RETURN_REQUESTED),
                 OrderStatus.RETURN_REQUESTED, Set.of(OrderStatus.RETURNED, OrderStatus.REFUNDED),
                 OrderStatus.RETURNED, Set.of(OrderStatus.REFUNDED)
         );
@@ -308,7 +308,7 @@ public class OrderAppService {
 
     private Dtos.OrderResponse toOrderResponse(Order o) {
         var lines = o.getLines().stream()
-                .map(l -> new Dtos.OrderLineResponse(l.getOrderId(), l.getSkuId(), l.getName(), l.getQuantity(), toMoneyDto(l.getUnitPrice())))
+                .map(l -> new Dtos.OrderLineResponse(l.getOrderLineId(), l.getSkuId(), l.getName(), l.getQuantity(), toMoneyDto(l.getUnitPrice())))
                 .toList();
 
         return new Dtos.OrderResponse(

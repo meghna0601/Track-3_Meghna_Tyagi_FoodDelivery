@@ -1,43 +1,51 @@
 package com.order.model;
 
 import com.order.domain.Money;
-import com.order.enums.PaymentState;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.UUID;
 
 @Entity
 @Table(name = "order_lines")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderLineEntity {
 
     @Id
-    private UUID paymentId;
+    private UUID orderLineId;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @Column(nullable = false)
-    private UUID orderId;
+    private String skuId;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PaymentState state;
+    private String name;
+
+    @Column(nullable = false)
+    private int quantity;
 
     @Embedded
-    private Money amount;
+    @AttributeOverrides({
+            @AttributeOverride(name = "currency", column = @Column(name = "unit_currency")),
+            @AttributeOverride(name = "amountMinor", column = @Column(name = "unit_amount_minor"))
+    })
+    private Money unitPrice;
 
-    private String paymentMethodRef;
-    private Instant createdAt;
-
-    public static Payment initiate(UUID orderId, Money amount, String methodRef) {
-        Payment p = new Payment();
-        p.setPaymentId(UUID.randomUUID());
-        p.setOrderId(orderId);
-        p.setAmount(amount);
-        p.setPaymentMethodRef(methodRef);
-        p.setState(PaymentState.INITIATED);
-        p.setCreatedAt(Instant.now());
-        return p;
+    public static OrderLineEntity of(String skuId, String name, int quantity, Money unitPrice) {
+        var l = new OrderLineEntity();
+        l.orderLineId = UUID.randomUUID();
+        l.skuId = skuId;
+        l.name = name;
+        l.quantity = quantity;
+        l.unitPrice = unitPrice;
+        return l;
     }
 
 }
