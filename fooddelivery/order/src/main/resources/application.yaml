@@ -2,18 +2,29 @@ spring:
   application:
     name: order
 
+  datasource:
+    url: jdbc:mysql://localhost:3306/fooddelivery_order
+    username: root
+    password: meghna_java123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        # usually omit dialect with Hibernate 6/7; it auto-detects
+        format_sql: true
+        jdbc:
+          time_zone: UTC
 
 server:
   port: 8383
 
   application:
     name: restraunt
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/fooddelivery_order
-    username: root
-    password: meghna_java123
-    driver-class-name: com.mysql.cj.jdbc.Driver
 
     hikari:
       pool-name: AppHikariPool
@@ -34,17 +45,7 @@ server:
       # optional: set DB/session properties
       connection-init-sql: "SET time_zone = '+00:00'"
 
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        # usually omit dialect with Hibernate 6/7; it auto-detects
-        format_sql: true
-        jdbc:
-          time_zone: UTC
+
 
 eureka:
   instance:
